@@ -54,18 +54,23 @@ public class LoginTest {
         clickIfPresent(By.cssSelector("a[aria-label='dismiss cookie message']"));
         clickIfPresent(By.cssSelector("button[aria-label='Close Welcome Banner']"));
 
-        // registrar usuario (Juice Shop no trae credenciales fijas)
-        driver.get(TARGET + "/#/register");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("emailControl"))).sendKeys(email);
-        driver.findElement(By.id("passwordControl")).sendKeys(password);
-        driver.findElement(By.id("repeatPasswordControl")).sendKeys(password);
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("securityQuestionControl"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("mat-option"))).click();
-        driver.findElement(By.id("securityAnswerControl")).sendKeys("zap");
-        driver.findElement(By.id("registerButton")).click();
-        wait.until(ExpectedConditions.urlContains("login"));
+        // registrar usuario; si el email ya existe, se continua directo al login (test idempotente)
+        try {
+            driver.get(TARGET + "/#/register");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("emailControl"))).sendKeys(email);
+            driver.findElement(By.id("passwordControl")).sendKeys(password);
+            driver.findElement(By.id("repeatPasswordControl")).sendKeys(password);
+            wait.until(ExpectedConditions.elementToBeClickable(By.id("securityQuestionControl"))).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("mat-option"))).click();
+            driver.findElement(By.id("securityAnswerControl")).sendKeys("zap");
+            driver.findElement(By.id("registerButton")).click();
+            wait.until(ExpectedConditions.urlContains("login"));
+        } catch (Exception e) {
+            System.out.println("Registro omitido (el usuario probablemente ya existe): " + e.getMessage());
+        }
 
-        // iniciar sesion
+        // iniciar sesion (usuario nuevo o preexistente)
+        driver.get(TARGET + "/#/login");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email"))).sendKeys(email);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("loginButton")).click();
