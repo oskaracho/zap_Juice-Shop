@@ -46,8 +46,8 @@ public class LoginTest {
     @Test
     @DisplayName("Login Juice Shop")
     public void verifyLogin() {
-        String email = "zapv6_" + UUID.randomUUID().toString().substring(0, 8) + "@zap.com";
-        String password = "Zapv6!2024";
+        String email = "zapJuice_test@zap.com";
+        String password = "Zap!2024";
 
         // abrir y cerrar banners de cookies / bienvenida
         driver.get(TARGET + "/#/");

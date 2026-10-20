@@ -25,10 +25,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-
-// gradle test  <------------ correr los test  , nota si no detenemos el zap  va esperar a que llegue al 100% eso puede tardar mucho tiempo
-// se genera en la carpeta build/allure-results
-// grdle serve RUTA DE LA CARPETA  build/allure-results  <------------ sirve para ver el reporte de allure en el navegador
-// allure serve C:\Users\EYNAR\Desktop\V6_UCB_Diplomado\zapv6\build\allure-results
-// allure serve build\allure-results
